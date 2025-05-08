@@ -1,32 +1,9 @@
-// Inject CSS dynamically
+// scripts.js
 (function() {
+  // Inject CSS dynamically
   const style = document.createElement('style');
   style.type = 'text/css';
-  // Mobile menu toggle
-const burger = document.querySelector('.burger');
-const nav = document.querySelector('.navbar nav');
-
-burger.addEventListener('click', () => {
-  nav.classList.toggle('active');
-  burger.classList.toggle('active');
-});
-
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.navbar')) {
-    nav.classList.remove('active');
-    burger.classList.remove('active');
-  }
-});
-
-// Close menu on resize
-window.addEventListener('resize', () => {
-  if (window.innerWidth > 768) {
-    nav.classList.remove('active');
-    burger.classList.remove('active');
-  }
-});
-  style.appendChild(document.createTextNode(`
+  style.textContent = `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     
     :root {
@@ -114,6 +91,66 @@ window.addEventListener('resize', () => {
       width: 100%;
     }
 
+    .navbar nav a.active {
+      color: var(--color-accent) !important;
+    }
+
+    .navbar nav a.active::after {
+      width: 100%;
+    }
+
+    /* Mobile Navigation */
+    .navbar .burger {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        position: relative;
+        padding: 0.5rem 0;
+      }
+
+      .navbar nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--color-panel);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: none;
+      }
+
+      .navbar nav.active {
+        display: flex;
+      }
+
+      .navbar nav a {
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+      }
+
+      .navbar .burger {
+        display: block;
+      }
+
+      .navbar .logo img {
+        height: 50px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar .logo img {
+        height: 45px;
+      }
+    }
+
     /* Hero Section */
     .hero {
       position: relative;
@@ -146,6 +183,25 @@ window.addEventListener('resize', () => {
       font-size: 3.5rem;
       margin-bottom: 1.5rem;
       line-height: 1.2;
+    }
+
+    .hero .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--color-accent);
+      color: #fff !important;
+      border-radius: var(--radius);
+      font-weight: 600;
+      transition: all var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 2px solid transparent;
+    }
+
+    .hero .btn:hover {
+      background: #dc5c11;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
     }
 
     /* Service Sections */
@@ -247,11 +303,18 @@ window.addEventListener('resize', () => {
     /* Contact Form */
     .contact-form {
       background: var(--color-panel);
-      padding: 3rem;
+      padding: 2.5rem;
       border-radius: var(--radius);
       box-shadow: 0 8px 32px rgba(0,0,0,0.05);
       max-width: 600px;
       margin: 2rem auto;
+    }
+
+    .contact-form h3 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.75rem;
+      color: var(--color-primary);
     }
 
     .form-group {
@@ -276,6 +339,28 @@ window.addEventListener('resize', () => {
       border-color: var(--color-accent);
       outline: none;
       box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    }
+
+    .btn-secondary {
+      background: var(--color-primary);
+      color: #fff !important;
+      padding: 1rem 2rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-secondary:hover {
+      background: #1e4bb8;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
     }
 
     /* Footer */
@@ -318,123 +403,6 @@ window.addEventListener('resize', () => {
       .service-content ul {
         grid-template-columns: 1fr;
       }
-      
-      .navbar nav a {
-        margin-left: 1.5rem;
-      }
-    }
-    .hero .btn {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: var(--color-accent);
-      color: #fff !important;
-      border-radius: var(--radius);
-      font-weight: 600;
-      transition: all var(--transition);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border: 2px solid transparent;
-    }
-  
-    .hero .btn:hover {
-      background: #dc5c11;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
-    }
-  
-    /* Active Navbar State - Enhanced */
-    .navbar nav a.active {
-      color: var(--color-accent) !important;
-      position: relative;
-    }
-  
-    .navbar nav a.active::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--color-accent);
-    }
-  
-    /* Submit Button - Fixed */
-    .btn-secondary {
-      background: var(--color-primary);
-      color: #fff !important;
-      padding: 1rem 2rem;
-      border-radius: var(--radius);
-      border: none;
-      cursor: pointer;
-      transition: all var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-      width: 100%;
-      justify-content: center;
-    }
-  
-    .btn-secondary:hover {
-      background: #1e4bb8;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-    }
-    /* Add these to your CSS injection */
-    /* Mobile Navigation */
-    .navbar .burger {
-      display: none;
-      cursor: pointer;
-      color: var(--color-text);
-    }
-    
-    @media (max-width: 768px) {
-      .navbar {
-        position: relative;
-        padding: 0.5rem 0;
-      }
-    
-      .navbar nav {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--color-panel);
-        flex-direction: column;
-        padding: 1rem;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        display: none;
-      }
-    
-      .navbar nav.active {
-        display: flex;
-      }
-    
-      .navbar nav a {
-        margin: 0.5rem 0;
-        padding: 0.75rem;
-        width: 100%;
-        text-align: center;
-      }
-    
-      .navbar nav a::after {
-        display: none;
-      }
-    
-      .navbar .burger {
-        display: block;
-        font-size: 1.5rem;
-      }
-    
-      .navbar .logo img {
-        height: 50px; /* Reduced logo size */
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .navbar .logo img {
-        height: 45px; /* Even smaller for very small devices */
-      }
     }
 
     @media (max-width: 480px) {
@@ -450,22 +418,85 @@ window.addEventListener('resize', () => {
         padding: 1.5rem;
       }
     }
-  `));
+  `;
   document.head.appendChild(style);
-})();
 
-// Intersection Observer
-document.addEventListener('DOMContentLoaded', () => {
-  const faders = document.querySelectorAll('.fade-in');
-  const options = { threshold: 0.1 };
+  // Initialize functionality after DOM loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Mobile Menu Toggle
+    const burger = document.querySelector('.burger');
+    const nav = document.querySelector('.navbar nav');
 
-  const appearOnScroll = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('visible');
-      obs.unobserve(entry.target);
+    if (burger && nav) {
+      burger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nav.classList.toggle('active');
+        burger.classList.toggle('active');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.navbar')) {
+          nav.classList.remove('active');
+          burger.classList.remove('active');
+        }
+      });
+
+      // Close menu on resize
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+          nav.classList.remove('active');
+          burger.classList.remove('active');
+        }
+      });
+    }
+
+    // Scroll Animations
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.1 };
+
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => appearOnScroll.observe(fader));
+
+    // Form Handling
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalText = submitButton.innerHTML;
+
+        // Show loading state
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitButton.disabled = true;
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (response.ok) {
+            alert('Message sent successfully! We will respond shortly.');
+            form.reset();
+          } else {
+            alert('There was an error sending your message. Please try again.');
+          }
+        } catch (error) {
+          alert('Network error. Please check your internet connection.');
+        } finally {
+          submitButton.innerHTML = originalText;
+          submitButton.disabled = false;
+        }
+      });
     });
-  }, options);
-
-  faders.forEach(el => appearOnScroll.observe(el));
-});
+  });
+})();
