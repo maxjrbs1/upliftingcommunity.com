@@ -2,6 +2,30 @@
 (function() {
   const style = document.createElement('style');
   style.type = 'text/css';
+  // Mobile menu toggle
+const burger = document.querySelector('.burger');
+const nav = document.querySelector('.navbar nav');
+
+burger.addEventListener('click', () => {
+  nav.classList.toggle('active');
+  burger.classList.toggle('active');
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.navbar')) {
+    nav.classList.remove('active');
+    burger.classList.remove('active');
+  }
+});
+
+// Close menu on resize
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    nav.classList.remove('active');
+    burger.classList.remove('active');
+  }
+});
   style.appendChild(document.createTextNode(`
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     
@@ -356,7 +380,63 @@
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
     }
-  
+    /* Add these to your CSS injection */
+    /* Mobile Navigation */
+    .navbar .burger {
+      display: none;
+      cursor: pointer;
+      color: var(--color-text);
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        position: relative;
+        padding: 0.5rem 0;
+      }
+    
+      .navbar nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--color-panel);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: none;
+      }
+    
+      .navbar nav.active {
+        display: flex;
+      }
+    
+      .navbar nav a {
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+        width: 100%;
+        text-align: center;
+      }
+    
+      .navbar nav a::after {
+        display: none;
+      }
+    
+      .navbar .burger {
+        display: block;
+        font-size: 1.5rem;
+      }
+    
+      .navbar .logo img {
+        height: 50px; /* Reduced logo size */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .navbar .logo img {
+        height: 45px; /* Even smaller for very small devices */
+      }
+    }
+
     @media (max-width: 480px) {
       .hero h1 {
         font-size: 2rem;
